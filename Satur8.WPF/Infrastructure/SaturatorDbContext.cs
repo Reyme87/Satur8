@@ -5,7 +5,7 @@ using Satur8.WPF.Infrastructure.Interfaces;
 
 namespace Satur8.WPF.Infrastructure
 {
-    internal class SaturatorDbContext : DbContext, ISaturatorDbContext
+    public class SaturatorDbContext : DbContext, ISaturatorDbContext
     {
         public SaturatorDbContext(DbContextOptions<SaturatorDbContext> options) : base(options) { }
 
