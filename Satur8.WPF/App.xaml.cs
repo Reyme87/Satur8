@@ -4,6 +4,7 @@ using System.Data;
 using System.Windows;
 using System.IO;
 using Microsoft.EntityFrameworkCore;
+using Satur8.WPF.Infrastructure;
 
 namespace Satur8.WPF
 {
@@ -24,15 +25,14 @@ namespace Satur8.WPF
 
             var services = new ServiceCollection();
 
-            services.AddDbContext<SaturatorContext>(options =>
-                options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"))
-            );
+            services.AddPersistence(configuration);
 
             services.AddSingleton<MainWindow>();
 
             ServiceProvider = services.BuildServiceProvider();
 
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
+            mainWindow.Show();
 
             base.OnStartup(e);
         }
