@@ -6,7 +6,7 @@ namespace Satur8.WPF.Infrastructure.EntityTypeConfiguration
 {
     public class FavouriteConfiguration : IEntityTypeConfiguration<Favourite>
     {
-        public void Configure(EntityTypeBuilder<Favourite> builder>)
+        public void Configure(EntityTypeBuilder<Favourite> builder)
         {
             builder.HasKey(e => e.FavouritesId).HasName("favourites_pkey");
 
@@ -14,7 +14,7 @@ namespace Satur8.WPF.Infrastructure.EntityTypeConfiguration
 
             builder.Property(e => e.FavouritesId).HasColumnName("favourites_id");
             builder.Property(e => e.PresetId).HasColumnName("preset_id");
-            builderProperty(e => e.UserId).HasColumnName("user_id");
+            builder.Property(e => e.UserId).HasColumnName("user_id");
 
             builder.HasOne(d => d.Preset).WithMany(p => p.Favourites)
                 .HasForeignKey(d => d.PresetId)

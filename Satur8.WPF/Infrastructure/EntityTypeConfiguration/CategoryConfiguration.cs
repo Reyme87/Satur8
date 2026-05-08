@@ -6,7 +6,7 @@ namespace Satur8.WPF.Infrastructure.EntityTypeConfiguration
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {
-        public void Configure(EntityTypeBuilder<Category> builder>)
+        public void Configure(EntityTypeBuilder<Category> builder)
         {
             builder.HasKey(e => e.CategoryId).HasName("categories_pkey");
 
