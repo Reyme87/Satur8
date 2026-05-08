@@ -24,4 +24,9 @@
     <Folder Include="Infrastructure\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Satur8.Application\Satur8.Application.csproj" />
+    <ProjectReference Include="..\Satur8.Persistence\Satur8.Persistence.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Satur8.Application\Satur8.Application.csproj" />
+  </ItemGroup>
+
 </Project>

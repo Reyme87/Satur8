@@ -17,8 +17,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Satur8.Console\Satur8.Console.csproj" />
-    <ProjectReference Include="..\Satur8.WPF\Satur8.WPF.csproj" />
+    <ProjectReference Include="..\Satur8.Application\Satur8.Application.csproj" />
+    <ProjectReference Include="..\Satur8.Persistence\Satur8.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
