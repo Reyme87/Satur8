@@ -31,6 +31,12 @@ namespace Satur8.WPF
 
             ServiceProvider = services.BuildServiceProvider();
 
+            using (var scope = ServiceProvider.CreateScope())
+            {
+                var dbContext = scope.ServiceProvider.GetService<SaturatorDbContext>();
+                DbInitializer.Initialize(dbContext!);
+            }
+
             var mainWindow = ServiceProvider.GetRequiredService<MainWindow>();
             mainWindow.Show();
 
