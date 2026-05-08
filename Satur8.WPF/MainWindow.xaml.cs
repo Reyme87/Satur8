@@ -1,4 +1,4 @@
-﻿using Satur8.WPF.Infrastructure;
+﻿using Satur8.Persistence;
 using System.Windows;
 
 namespace Satur8.WPF

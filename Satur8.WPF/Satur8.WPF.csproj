@@ -21,12 +21,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Infrastructure\" />
+    <ProjectReference Include="..\Satur8.Application\Satur8.CoreApplication.csproj" />
+    <ProjectReference Include="..\Satur8.Persistence\Satur8.Persistence.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Satur8.Application\Satur8.Application.csproj" />
-    <ProjectReference Include="..\Satur8.Persistence\Satur8.Persistence.csproj" />
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

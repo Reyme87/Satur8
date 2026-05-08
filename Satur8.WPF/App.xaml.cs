@@ -1,10 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using System.Data;
 using System.Windows;
 using System.IO;
-using Microsoft.EntityFrameworkCore;
-using Satur8.WPF.Infrastructure;
+using Satur8.Persistence;
 
 namespace Satur8.WPF
 {
