@@ -17,6 +17,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Satur8.Console\Satur8.Console.csproj" />
+    <ProjectReference Include="..\Satur8.WPF\Satur8.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Using Include="Xunit" />
   </ItemGroup>
 
