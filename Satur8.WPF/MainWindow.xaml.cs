@@ -1,13 +1,5 @@
-﻿using System.Text;
+﻿using Satur8.WPF.Infrastructure;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Satur8.WPF
 {
@@ -16,8 +8,8 @@ namespace Satur8.WPF
     /// </summary>
     public partial class MainWindow : Window
     {
-        private readonly SaturatorContext _dbContext;
-        public MainWindow(SaturatorContext dbContext)
+        private readonly SaturatorDbContext _dbContext;
+        public MainWindow(SaturatorDbContext dbContext)
         {
             _dbContext = dbContext;
             InitializeComponent();
