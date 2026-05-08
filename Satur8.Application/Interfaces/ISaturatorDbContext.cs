@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Satur8.WPF.Domain.Models;
+using Satur8.Domain.Models;
 
-namespace Satur8.WPF.Infrastructure.Interfaces
+namespace Satur8.CoreApplication.Interfaces
 {
     public interface ISaturatorDbContext
     {

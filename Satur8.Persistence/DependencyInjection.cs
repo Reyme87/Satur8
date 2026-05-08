@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Satur8.WPF.Infrastructure.Interfaces;
+using Satur8.CoreApplication.Interfaces;
 
-namespace Satur8.WPF.Infrastructure
+namespace Satur8.Persistence
 {
     public static class DependencyInjection
     {

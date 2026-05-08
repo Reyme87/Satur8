@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Satur8.WPF.Domain.Models;
+namespace Satur8.Domain.Models;
 
 public partial class Preset
 {

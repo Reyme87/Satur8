@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Satur8.WPF.Domain.Models;
-using Satur8.WPF.Infrastructure.EntityTypeConfiguration;
-using Satur8.WPF.Infrastructure.Interfaces;
+using Satur8.Domain.Models;
+using Satur8.Persistence.EntityTypeConfiguration;
+using Satur8.CoreApplication.Interfaces;
 
-namespace Satur8.WPF.Infrastructure
+namespace Satur8.Persistence
 {
     public class SaturatorDbContext : DbContext, ISaturatorDbContext
     {

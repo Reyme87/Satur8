@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Satur8.WPF.Domain.Models;
+using Satur8.Domain.Models;
 
-namespace Satur8.WPF.Infrastructure.EntityTypeConfiguration
+namespace Satur8.Persistence.EntityTypeConfiguration
 {
     public class CategoryConfiguration : IEntityTypeConfiguration<Category>
     {

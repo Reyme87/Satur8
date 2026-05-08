@@ -1,4 +1,4 @@
-﻿namespace Satur8.WPF.Infrastructure
+﻿namespace Satur8.Persistence
 {
     public static class DbInitializer
     {
