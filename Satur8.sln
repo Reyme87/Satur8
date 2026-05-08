@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 18
 VisualStudioVersion = 18.6.11723.189
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Satur8.Test", "Satur8.Test", "{BE573CFC-2C3A-4E47-8053-2C71E22F5349}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Satur8.Console", "Satur8.Console", "{BE573CFC-2C3A-4E47-8053-2C71E22F5349}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Satur8.WPF", "Satur8.WPF", "{4CB708B0-A726-40D4-8D39-1070DA5F5E57}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.WPF", "Satur8.WPF\Satur8.WPF.csproj", "{8C4084D6-5A7B-49AA-8D4A-CB3B91DF0EBE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.Test", "Satur8.Test\Satur8.Test.csproj", "{A892D712-19E0-186A-1F7A-9F6E57530DBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.Console", "Satur8.Test\Satur8.Console.csproj", "{A892D712-19E0-186A-1F7A-9F6E57530DBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
