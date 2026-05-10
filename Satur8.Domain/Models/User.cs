@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Satur8.Domain.Models;
 
-public partial class User
+public class User
 {
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     public string? Login { get; set; }
 

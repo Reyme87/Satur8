@@ -3,17 +3,17 @@ using System.Collections.Generic;
 
 namespace Satur8.Domain.Models;
 
-public partial class Preset
+public class Preset
 {
-    public int PresetId { get; set; }
+    public Guid PresetId { get; set; }
 
     public string? Name { get; set; }
 
     public string? Description { get; set; }
 
-    public int CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
     public string ParametersJson { get; set; } = null!;
 

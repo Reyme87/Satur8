@@ -3,9 +3,9 @@ using System.Collections.Generic;
 
 namespace Satur8.Domain.Models;
 
-public partial class Category
+public class Category
 {
-    public int CategoryId { get; set; }
+    public Guid CategoryId { get; set; }
 
     public string? Name { get; set; }
 

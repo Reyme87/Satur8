@@ -3,13 +3,13 @@ using System.Collections.Generic;
 
 namespace Satur8.Domain.Models;
 
-public partial class Favourite
+public class Favourite
 {
-    public int FavouritesId { get; set; }
+    public Guid FavouritesId { get; set; }
 
-    public int UserId { get; set; }
+    public Guid UserId { get; set; }
 
-    public int PresetId { get; set; }
+    public Guid PresetId { get; set; }
 
     public virtual Preset Preset { get; set; } = null!;
 
