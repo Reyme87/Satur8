@@ -21,7 +21,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.Domain", "Satur8.Dom
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Infrastructure", "Infrastructure", "{61F3A7BA-0B4B-4571-975B-2E107B65782B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.Application", "Satur8.Application\Satur8.Application.csproj", "{BC00264B-9885-4224-BA31-A0523DAB2241}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.CoreApplication", "Satur8.Application\Satur8.CoreApplication.csproj", "{BC00264B-9885-4224-BA31-A0523DAB2241}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Satur8.Persistence", "Satur8.Persistence\Satur8.Persistence.csproj", "{AA4ED230-2836-4998-BA7C-BE1DDA0D655D}"
 EndProject

@@ -51,7 +51,7 @@ namespace Satur8.Tests.Models.Categories
 
             // Assert
             var updated = await Context.Categories.FirstOrDefaultAsync(c => c.CategoryId == SaturatorContextFactory.CategoryToUpdateId);
-            Assert.Equal(name, category.Name);
+            Assert.Equal(name, updated.Name);
         }
 
         [Fact]
