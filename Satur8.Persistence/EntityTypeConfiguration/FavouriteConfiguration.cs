@@ -18,11 +18,13 @@ namespace Satur8.Persistence.EntityTypeConfiguration
 
             builder.HasOne(d => d.Preset).WithMany(p => p.Favourites)
                 .HasForeignKey(d => d.PresetId)
-                .HasConstraintName("favourites_preset_id_fkey");
+                .HasConstraintName("favourites_preset_id_fkey")
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(d => d.User).WithMany(p => p.Favourites)
                 .HasForeignKey(d => d.UserId)
-                .HasConstraintName("favourites_user_id_fkey");
+                .HasConstraintName("favourites_user_id_fkey")
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
