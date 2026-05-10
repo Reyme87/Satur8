@@ -4,7 +4,7 @@ using Microsoft.Extensions.Configuration;
 
 namespace Satur8.Persistence.ContextFactory
 {
-    public class SaturatorDbContextFactory : IDesignTimeDbContextFactory<SaturatorDbContext>
+    public class SaturatorDbTimeContextFactory : IDesignTimeDbContextFactory<SaturatorDbContext>
     {
         public SaturatorDbContext CreateDbContext(string[] args)
         {
