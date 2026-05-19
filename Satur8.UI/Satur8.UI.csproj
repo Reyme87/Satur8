@@ -8,6 +8,8 @@
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
+	<VstPluginName>Satur8.UIBridge</VstPluginName>
+	<VstOutputDir>C:\Program Files\Common Files\VST3\$(VstPluginName).vst3\Contents\x86_64-win</VstOutputDir>
   </PropertyGroup>
 	
   <ItemGroup>
@@ -26,13 +28,30 @@
     </Compile>
   </ItemGroup>
 	
-<Target Name="PostBuild" AfterTargets="PostBuildEvent">
+<!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">
   <Exec Command="if not exist &quot;D:\VST plugins\Satur8Bridge.vst3\Contents\x86_64-win&quot; mkdir &quot;D:\VST plugins\Satur8Bridge.vst3\Contents\x86_64-win&quot;" />
   <Exec Command="copy /Y &quot;$(NuGetPackageRoot)audioplugsharpvst3\0.7.9\contentFiles\vst\AudioPlugSharpVst.vst3&quot; &quot;D:\VST plugins\Satur8Bridge.vst3\Contents\x86_64-win\Satur8Bridge.vst3&quot;" />
   <Exec Command="copy /Y &quot;$(NuGetPackageRoot)audioplugsharpvst3\0.7.9\contentFiles\vst\AudioPlugSharpVst.runtimeconfig.json&quot; &quot;D:\VST plugins\Satur8Bridge.vst3\Contents\x86_64-win\Satur8Bridge.runtimeconfig.json&quot;" />
   <Exec Command="copy /Y &quot;$(NuGetPackageRoot)audioplugsharpwpf\0.7.9\lib\net8.0-windows7.0\AudioPlugSharpWPF.dll&quot; &quot;D:\VST plugins\Satur8Bridge.vst3\Contents\x86_64-win\&quot;" />
-  <!--<Exec Command="copy /Y &quot;$(OutDir)Satur8.UI.dll&quot; &quot;D:\VST plugins\Satur8.UI.Bridge.vst3\Contents\x86_64-win\&quot;" />
-  <Exec Command="copy /Y &quot;$(OutDir)Satur8.Console.dll&quot; &quot;D:\VST plugins\Satur8.UI.Bridge.vst3\Contents\x86_64-win\&quot;" />-->
-</Target>
+  --><!--<Exec Command="copy /Y &quot;$(OutDir)Satur8.UI.dll&quot; &quot;D:\VST plugins\Satur8.UI.Bridge.vst3\Contents\x86_64-win\&quot;" />
+  <Exec Command="copy /Y &quot;$(OutDir)Satur8.Console.dll&quot; &quot;D:\VST plugins\Satur8.UI.Bridge.vst3\Contents\x86_64-win\&quot;" />--><!--
+</Target>-->
+
+	<Target Name="DeployVST3" AfterTargets="Build">
+
+		<MakeDir Directories="$(VstOutputDir)" />
+
+		<Copy SourceFiles="$(NuGetPackageRoot)audioplugsharpvst3\0.7.9\contentFiles\vst\AudioPlugSharpVst.vst3" DestinationFiles="$(VstOutputDir)\$(VstPluginName).vst3" />
+
+		<Copy SourceFiles="$(NuGetPackageRoot)audioplugsharpvst3\0.7.9\contentFiles\vst\AudioPlugSharpVst.runtimeconfig.json" DestinationFiles="$(VstOutputDir)\$(VstPluginName).runtimeconfig.json" />
+
+		<ItemGroup>
+			<PluginFiles Include="$(OutDir)\*.dll" />
+			<PluginFiles Include="$(OutDir)\*.json" />
+		</ItemGroup>
+
+		<Copy SourceFiles="@(PluginFiles)" DestinationFolder="$(VstOutputDir)" SkipUnchangedFiles="true" />
+
+	</Target>
 
 </Project>
