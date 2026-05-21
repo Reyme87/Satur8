@@ -8,31 +8,12 @@ namespace Satur8.Maths
 {
     public class HarmonicSaturator
     {
-        private Clipper _clipper;
+        private readonly Clipper _clipper;
 
-        /// <summary>
-        /// Выбор типа клиппинга: "Hard" или "Soft"
-        /// </summary>
         public string ClipType { get; set; } = "Soft";
-
-        /// <summary>
-        /// Коэффициент для чётной составляющей (0..2)
-        /// </summary>
-        public float EvenAmount { get; set; } = 0.5f;
-
-        /// <summary>
-        /// Коэффициент для нечётной составляющей (0..2)
-        /// </summary>
-        public float OddAmount { get; set; } = 1.0f;
-
-        /// <summary>
-        /// Драйв (усиление перед клиппингом)
-        /// </summary>
         public float Drive { get; set; } = 1.0f;
-
-        /// <summary>
-        /// Выходное усиление
-        /// </summary>
+        public float EvenAmount { get; set; } = 0.5f;
+        public float OddAmount { get; set; } = 1.0f;
         public float OutputGain { get; set; } = 1.0f;
 
         public float Bias
@@ -46,40 +27,40 @@ namespace Satur8.Maths
             _clipper = clipper;
         }
 
-        public void SetClipType(string type)
+        private float ClipFunction(float x) => ClipType switch
         {
-            ClipType = type;
-        }
+            "Hard" => _clipper.HardClip(x),
+            "Tube" => _clipper.TanhClip(x),
+            "Arctan" => _clipper.ArctanClip(x),
+            _ => _clipper.SoftClip(x)
+        };
 
-        private float ClipFunction(float x)
+        private float ClipperNorm() => ClipType switch
         {
-            if (ClipType == "Hard")
-                return _clipper.HardClip(x);
-            else
-                return _clipper.SoftClip(x);
-        }
+            "Hard" => 1.0f / Math.Max(_clipper.HardThreshold, 1e-6f),
+            "Tube" => 1.0f / (float)Math.Tanh(1.0),
+            "Arctan" => 1.0f / (float)(2.0 / Math.PI * Math.Atan(Math.PI / 2.0)),
+            _ => 1.5f
+        };
 
-        /// <summary>
-        /// Обработка одного семпла
-        /// </summary>
         public float ProcessSample(float input)
         {
             float x = input * Drive;
+
             float fx = ClipFunction(x);
-            float f_minus_x = ClipFunction(-x);
+            float fnx = ClipFunction(-x);
 
-            // Чётная часть
-            float evenPart = (fx + f_minus_x) * 0.5f;
-            // Нечётная часть
-            float oddPart = (fx - f_minus_x) * 0.5f;
+            float evenPart = (fx + fnx) * 0.5f;
 
-            float result = evenPart * EvenAmount + oddPart * OddAmount;
+            float oddPart = (fx - fnx) * 0.5f;
+
+            float norm = ClipperNorm() / Math.Max(Drive, 0.01f);
+
+            float result = (evenPart * EvenAmount + oddPart * OddAmount) * norm;
+
             return result * OutputGain;
         }
 
-        /// <summary>
-        /// Обработка буфера
-        /// </summary>
         public void ProcessBuffer(float[] buffer, int offset, int count)
         {
             for (int i = offset; i < offset + count; i++)

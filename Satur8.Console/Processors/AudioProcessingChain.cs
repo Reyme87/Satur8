@@ -53,7 +53,6 @@ namespace Satur8.Processors
             _saturator.OddAmount = oddAmount;
             _saturator.Drive = drive;
             _saturator.Bias = bias;
-            _saturator.SetClipType(clipType);
         }
     }
 }
