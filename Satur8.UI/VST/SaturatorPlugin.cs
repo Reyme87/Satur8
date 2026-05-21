@@ -38,8 +38,8 @@ namespace Satur8.UI.VST
             SampleFormatsSupported = EAudioBitsPerSample.Bits32;
 
             HasUserInterface = true;
-            EditorWidth = 600;
-            EditorHeight = 400;
+            EditorWidth = 640;
+            EditorHeight = 420;
         }
 
         public override void Initialize()
@@ -169,23 +169,22 @@ namespace Satur8.UI.VST
 
             _dynamics.ThresholdDb = thresholdDb;
             _dynamics.Ratio = ratio;
+            _dynamics.UpdateTimeConstants();
 
-            Span<float> leftInput = _stereoInput.GetAudioBuffer(0);
-            Span<float> rightInput = _stereoInput.GetAudioBuffer(1);
-            Span<float> leftOutput = _stereoOutput.GetAudioBuffer(0);
-            Span<float> rightOutput = _stereoOutput.GetAudioBuffer(1);
+            Span<float> leftIn = _stereoInput.GetAudioBuffer(0);
+            Span<float> rightIn = _stereoInput.GetAudioBuffer(1);
+            Span<float> leftOut = _stereoOutput.GetAudioBuffer(0);
+            Span<float> rightOut = _stereoOutput.GetAudioBuffer(1);
 
-            for (int i = 0; i < leftInput.Length; i++)
+            for (int i = 0; i < leftIn.Length; i++)
             {
-                float leftSample = leftInput[i];
-                float leftProcessed = _dynamics.ProcessSample(leftSample);
-                leftProcessed = _saturator.ProcessSample(leftProcessed);
-                leftOutput[i] = leftSample * (1 - mix) + leftProcessed * mix;
+                float ls = leftIn[i];
+                float lp = _saturator.ProcessSample(_dynamics.ProcessSample(ls));
+                leftOut[i] = ls + (lp - ls) * mix;
 
-                float rightSample = rightInput[i];
-                float rightProcessed = _dynamics.ProcessSample(rightSample);
-                rightProcessed = _saturator.ProcessSample(rightProcessed);
-                rightOutput[i] = rightSample * (1 - mix) + rightProcessed * mix;
+                float rs = rightIn[i];
+                float rp = _saturator.ProcessSample(_dynamics.ProcessSample(rs));
+                rightOut[i] = rs + (rp - rs) * mix;
             }
         }
 
