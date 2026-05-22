@@ -1,6 +1,7 @@
 ﻿using AudioPlugSharp;
 using AudioPlugSharpWPF;
 using Satur8.Maths;
+using Satur8.Persistence.Services;
 using Satur8.Processors;
 using System.Windows.Controls;
 
@@ -45,6 +46,8 @@ namespace Satur8.UI.VST
         public override void Initialize()
         {
             base.Initialize();
+
+            PluginService.Initialize();
 
             _stereoInput = new FloatAudioIOPort("Stereo Input", EAudioChannelConfiguration.Stereo);
             _stereoOutput = new FloatAudioIOPort("Stereo Output", EAudioChannelConfiguration.Stereo);
