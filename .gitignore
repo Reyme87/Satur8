@@ -362,3 +362,4 @@ MigrationBackup/
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
 /Satur8.WPF/appsettings.json
+/Satur8.UI/appsettings.json
