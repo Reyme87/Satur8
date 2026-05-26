@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Satur8.CoreApplication.Interfaces;
+using Satur8.Persistence.Services;
 
 namespace Satur8.Persistence
 {
@@ -15,6 +16,7 @@ namespace Satur8.Persistence
                 options.UseNpgsql(connectionString);
             });
             services.AddScoped<ISaturatorDbContext>(provider => provider.GetRequiredService<SaturatorDbContext>());
+            services.AddScoped<AuthService>();
 
             return services;
         }
