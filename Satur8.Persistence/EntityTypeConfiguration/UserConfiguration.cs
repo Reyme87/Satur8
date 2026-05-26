@@ -17,7 +17,7 @@ namespace Satur8.Persistence.EntityTypeConfiguration
                 .HasMaxLength(50)
                 .HasColumnName("login");
             builder.Property(e => e.PasswordHash)
-                .HasMaxLength(50)
+                .HasMaxLength(255)
                 .HasColumnName("password_hash");
         }
     }
