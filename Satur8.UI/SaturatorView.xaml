@@ -6,14 +6,15 @@
              xmlns:aps="clr-namespace:AudioPlugSharpWPF;assembly=AudioPlugSharpWPF"
              xmlns:conv="clr-namespace:Satur8.UI.Converters"
              mc:Ignorable="d"
-             MinWidth="480" MinHeight="315"
-             MaxWidth="1280" MaxHeight="840"
-             Background="#1A1A1A">
+             Background="#1A1A1A"
+             Focusable="True"
+             FocusManager.IsFocusScope="True">
 
     <UserControl.Resources>
-        <conv:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <conv:BoolToVisibilityConverter   x:Key="BoolToVisibilityConverter"/>
+        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+        <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
 
-        <!-- Стиль лейбла над крутилкой -->
         <Style x:Key="KnobLabel" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#888888"/>
             <Setter Property="FontSize" Value="9"/>
@@ -22,7 +23,6 @@
             <Setter Property="Margin" Value="0,0,0,6"/>
         </Style>
 
-        <!-- Стиль значения под крутилкой -->
         <Style x:Key="KnobValue" TargetType="TextBlock">
             <Setter Property="Foreground" Value="#FFAA33"/>
             <Setter Property="FontSize" Value="10"/>
@@ -30,7 +30,6 @@
             <Setter Property="Margin" Value="0,6,0,0"/>
         </Style>
 
-        <!-- Стиль секции (блок с крутилкой) -->
         <Style x:Key="KnobPanel" TargetType="StackPanel">
             <Setter Property="HorizontalAlignment" Value="Center"/>
             <Setter Property="VerticalAlignment" Value="Center"/>
@@ -38,7 +37,6 @@
             <Setter Property="Width" Value="90"/>
         </Style>
 
-        <!-- Разделитель между секциями -->
         <Style x:Key="SectionSeparator" TargetType="Rectangle">
             <Setter Property="Width" Value="1"/>
             <Setter Property="Fill" Value="#2E2E2E"/>
@@ -46,7 +44,6 @@
             <Setter Property="Margin" Value="0,8"/>
         </Style>
 
-        <!-- Кнопки в overlay -->
         <Style x:Key="PrimaryButton" TargetType="Button">
             <Setter Property="Background" Value="#FFAA33"/>
             <Setter Property="Foreground" Value="#111111"/>
@@ -103,21 +100,23 @@
             </Setter>
         </Style>
 
-        <!-- TextBox стиль -->
         <Style x:Key="DarkInput" TargetType="TextBox">
             <Setter Property="Background" Value="#111111"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CaretBrush" Value="White"/>
             <Setter Property="BorderBrush" Value="#3A3A3A"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Height" Value="34"/>
             <Setter Property="Padding" Value="8,0"/>
             <Setter Property="VerticalContentAlignment" Value="Center"/>
             <Setter Property="FontSize" Value="12"/>
+            <Setter Property="SelectionBrush" Value="#FFAA33"/>
         </Style>
 
         <Style x:Key="DarkPassword" TargetType="PasswordBox">
             <Setter Property="Background" Value="#111111"/>
             <Setter Property="Foreground" Value="White"/>
+            <Setter Property="CaretBrush" Value="White"/>
             <Setter Property="BorderBrush" Value="#3A3A3A"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Height" Value="34"/>
@@ -128,8 +127,9 @@
     </UserControl.Resources>
 
     <Grid>
+
         <Viewbox Stretch="Uniform" StretchDirection="Both">
-            <Grid Width="640" Height="420">
+            <Grid Width="640" Height="420" Background="#1A1A1A">
 
                 <!-- ===== ОСНОВНОЙ ИНТЕРФЕЙС ===== -->
                 <Grid Margin="16,12,16,12">
@@ -141,46 +141,47 @@
 
                     <!-- TOP BAR -->
                     <DockPanel Grid.Row="0" VerticalAlignment="Center">
+
                         <TextBlock Text="SATUR8"
-                           Foreground="#FFAA33"
-                           FontWeight="Bold"
-                           FontSize="20"
-                           VerticalAlignment="Center"
-                           DockPanel.Dock="Left"
-                           Margin="0,0,16,0"/>
+                                   Foreground="#FFAA33"
+                                   FontWeight="Bold"
+                                   FontSize="20"
+                                   VerticalAlignment="Center"
+                                   DockPanel.Dock="Left"
+                                   Margin="0,0,12,0"/>
 
                         <TextBlock Text="v1.0"
-                           Foreground="#444444"
-                           FontSize="10"
-                           VerticalAlignment="Center"
-                           DockPanel.Dock="Left"
-                           Margin="0,2,0,0"/>
+                                   Foreground="#444444"
+                                   FontSize="10"
+                                   VerticalAlignment="Center"
+                                   DockPanel.Dock="Left"
+                                   Margin="0,3,0,0"/>
 
                         <Button Content="⚙ ACCOUNT"
-                        Style="{StaticResource SecondaryButton}"
-                        Height="26"
-                        FontSize="10"
-                        DockPanel.Dock="Right"
-                        HorizontalAlignment="Right"
-                        Click="AccountButton_Click"/>
+                                Style="{StaticResource SecondaryButton}"
+                                Height="26"
+                                FontSize="10"
+                                DockPanel.Dock="Right"
+                                Click="AccountButton_Click"/>
 
                         <ComboBox Width="130"
-                          Height="26"
-                          VerticalAlignment="Center"
-                          HorizontalAlignment="Right"
-                          Margin="0,0,10,0"
-                          SelectedIndex="0"
-                          DockPanel.Dock="Right">
+                                  Height="26"
+                                  VerticalAlignment="Center"
+                                  HorizontalAlignment="Right"
+                                  Margin="0,0,8,0"
+                                  SelectedIndex="0"
+                                  DockPanel.Dock="Right">
                             <ComboBoxItem Content="Default"/>
                             <ComboBoxItem Content="Tube Warm"/>
                             <ComboBoxItem Content="Aggressive"/>
                             <ComboBoxItem Content="Even Heavy"/>
                         </ComboBox>
+
                     </DockPanel>
 
-                    <!-- РАЗДЕЛИТЕЛЬНАЯ ЛИНИЯ -->
-                    <Rectangle Grid.Row="0" Height="1" Fill="#2A2A2A"
-                       VerticalAlignment="Bottom"/>
+                    <Rectangle Grid.Row="0"
+                               Height="1" Fill="#2A2A2A"
+                               VerticalAlignment="Bottom"/>
 
                     <!-- ROW 1: Drive / Output / Even / Odd -->
                     <Grid Grid.Row="1">
@@ -194,60 +195,57 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- DRIVE -->
                         <StackPanel Grid.Column="0" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="DRIVE" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="0.5" Maximum="5.0" DefaultValue="1.0"
-                              Value="{Binding DriveValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="0.5" Maximum="5.0" DefaultValue="1.0"
+                                      Value="{Binding DriveValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding DriveValue, StringFormat={}{0:F2}}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="1" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- OUTPUT -->
                         <StackPanel Grid.Column="2" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="OUTPUT" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="-20" Maximum="20" DefaultValue="0"
-                              Value="{Binding OutputGainValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="-20" Maximum="20" DefaultValue="0"
+                                      Value="{Binding OutputGainValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding OutputGainValue, StringFormat={}{0:F1} dB}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="3" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- EVEN -->
                         <StackPanel Grid.Column="4" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="EVEN" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="0" Maximum="1" DefaultValue="0.5"
-                              Value="{Binding EvenAmountValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="0" Maximum="1" DefaultValue="0.5"
+                                      Value="{Binding EvenAmountValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding EvenAmountValue, StringFormat={}{0:F2}}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="5" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- ODD -->
                         <StackPanel Grid.Column="6" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="ODD" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="0" Maximum="1" DefaultValue="1"
-                              Value="{Binding OddAmountValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="0" Maximum="1" DefaultValue="1"
+                                      Value="{Binding OddAmountValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding OddAmountValue, StringFormat={}{0:F2}}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
                     </Grid>
 
-                    <!-- РАЗДЕЛИТЕЛЬНАЯ ЛИНИЯ -->
-                    <Rectangle Grid.Row="1" Height="1" Fill="#2A2A2A"
-                       VerticalAlignment="Bottom"/>
+                    <!-- Линия между рядами -->
+                    <Rectangle Grid.Row="1"
+                               Height="1" Fill="#2A2A2A"
+                               VerticalAlignment="Bottom"/>
 
                     <!-- ROW 2: Bias / Mix / Threshold / Ratio -->
                     <Grid Grid.Row="2">
@@ -261,127 +259,182 @@
                             <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
-                        <!-- BIAS -->
                         <StackPanel Grid.Column="0" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="BIAS" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="-0.5" Maximum="0.5" DefaultValue="0"
-                              Value="{Binding BiasValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="-0.5" Maximum="0.5" DefaultValue="0"
+                                      Value="{Binding BiasValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding BiasValue, StringFormat={}{0:F2}}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="1" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- MIX -->
                         <StackPanel Grid.Column="2" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="MIX" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="0" Maximum="100" DefaultValue="100"
-                              Value="{Binding MixPercent, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="0" Maximum="100" DefaultValue="100"
+                                      Value="{Binding MixPercent, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding MixPercent, StringFormat={}{0:F0}%}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="3" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- THRESHOLD -->
                         <StackPanel Grid.Column="4" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="THRESHOLD" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="-30" Maximum="0" DefaultValue="-12"
-                              Value="{Binding ThresholdDb, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="-30" Maximum="0" DefaultValue="-12"
+                                      Value="{Binding ThresholdDb, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding ThresholdDb, StringFormat={}{0:F0} dB}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
 
                         <Rectangle Grid.Column="5" Style="{StaticResource SectionSeparator}"/>
 
-                        <!-- RATIO -->
                         <StackPanel Grid.Column="6" Style="{StaticResource KnobPanel}">
                             <TextBlock Text="RATIO" Style="{StaticResource KnobLabel}"/>
                             <aps:Dial Width="80" Height="80"
-                              Minimum="1" Maximum="10" DefaultValue="4"
-                              Value="{Binding RatioValue, Mode=TwoWay}"
-                              HorizontalAlignment="Center"/>
+                                      Minimum="1" Maximum="10" DefaultValue="4"
+                                      Value="{Binding RatioValue, Mode=TwoWay}"
+                                      HorizontalAlignment="Center"/>
                             <TextBlock Text="{Binding RatioValue, StringFormat={}{0:F1}}"
-                               Style="{StaticResource KnobValue}"/>
+                                       Style="{StaticResource KnobValue}"/>
                         </StackPanel>
                     </Grid>
+
                 </Grid>
 
                 <!-- ===== ACCOUNT OVERLAY ===== -->
-                <!-- Лежит поверх всего, занимает весь UserControl -->
                 <Grid Background="#CC0D0D0D"
-              Visibility="{Binding ShowAccountPanel,
-                           Converter={StaticResource BoolToVisibilityConverter}}">
+                      Visibility="{Binding ShowAccountPanel, Converter={StaticResource BoolToVisibilityConverter}}">
 
                     <Border Width="300"
-                    Background="#1E1E1E"
-                    BorderBrush="#333333"
-                    BorderThickness="1"
-                    CornerRadius="10"
-                    Padding="24,20"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center">
+                            Background="#1E1E1E"
+                            BorderBrush="#333333"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Padding="24,20"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center">
                         <StackPanel>
 
-                            <!-- Заголовок overlay -->
+                            <!-- Заголовок -->
                             <Grid Margin="0,0,0,20">
                                 <TextBlock Text="ACCOUNT"
-                                       Foreground="#FFAA33"
-                                       FontSize="16"
-                                       FontWeight="Bold"
-                                       VerticalAlignment="Center"
-                                       HorizontalAlignment="Left"/>
+                           Foreground="#FFAA33"
+                           FontSize="16"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           HorizontalAlignment="Left"/>
                                 <Button Content="← BACK"
-                                    Style="{StaticResource SecondaryButton}"
-                                    Height="26"
-                                    FontSize="10"
-                                    HorizontalAlignment="Right"
-                                    VerticalAlignment="Center"
-                                    Click="CloseAccountPanel_Click"/>
+                        Style="{StaticResource SecondaryButton}"
+                        Height="26" FontSize="10"
+                        HorizontalAlignment="Right"
+                        VerticalAlignment="Center"
+                        Click="CloseAccountPanel_Click"/>
                             </Grid>
 
-                            <!-- Email -->
-                            <TextBlock Text="EMAIL"
-                               Foreground="#666666"
-                               FontSize="9"
-                               FontWeight="Bold"
-                               Margin="0,0,0,4"/>
-                            <TextBox Style="{StaticResource DarkInput}"
-                                 Margin="0,0,0,14"/>
+                            <!-- ── ФОРМА ВХОДА ── -->
+                            <StackPanel Visibility="{Binding ShowLoginForm,
+                                    Converter={StaticResource BoolToVisibilityConverter}}">
 
-                            <!-- Password -->
-                            <TextBlock Text="PASSWORD"
-                               Foreground="#666666"
-                               FontSize="9"
-                               FontWeight="Bold"
-                               Margin="0,0,0,4"/>
-                            <PasswordBox Style="{StaticResource DarkPassword}"
-                                     Margin="0,0,0,22"/>
+                                <!-- Сообщение об ошибке -->
+                                <Border Background="#2A1010"
+                        BorderBrush="#6B2020"
+                        BorderThickness="1"
+                        CornerRadius="4"
+                        Padding="8,6"
+                        Margin="0,0,0,12"
+                        Visibility="{Binding AuthError,
+                                     Converter={StaticResource StringToVisibilityConverter}}">
+                                    <TextBlock Text="{Binding AuthError}"
+                               Foreground="#FF6B6B"
+                               FontSize="10"
+                               TextWrapping="Wrap"/>
+                                </Border>
 
-                            <!-- Кнопки -->
-                            <Grid>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="*"/>
-                                    <ColumnDefinition Width="8"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Button Grid.Column="0"
-                                Content="LOG IN"
-                                Style="{StaticResource PrimaryButton}"/>
-                                <Button Grid.Column="2"
-                                Content="REGISTER"
-                                Style="{StaticResource SecondaryButton}"/>
-                            </Grid>
+                                <TextBlock Text="LOGIN"
+                           Foreground="#666666"
+                           FontSize="9" FontWeight="Bold"
+                           Margin="0,0,0,4"/>
+                                <TextBox x:Name="LoginBox"
+                         Style="{StaticResource DarkInput}"
+                         Margin="0,0,0,14"/>
+
+                                <TextBlock Text="PASSWORD"
+                           Foreground="#666666"
+                           FontSize="9" FontWeight="Bold"
+                           Margin="0,0,0,4"/>
+                                <PasswordBox x:Name="PasswordBox"
+                             Style="{StaticResource DarkPassword}"
+                             Margin="0,0,0,22"/>
+
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="8"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <Button Grid.Column="0"
+                            Content="LOG IN"
+                            Style="{StaticResource PrimaryButton}"
+                            IsEnabled="{Binding IsLoading,
+                                        Converter={StaticResource InverseBoolConverter}}"
+                            Click="LoginButton_Click"/>
+                                    <Button Grid.Column="2"
+                            Content="REGISTER"
+                            Style="{StaticResource SecondaryButton}"
+                            IsEnabled="{Binding IsLoading,
+                                        Converter={StaticResource InverseBoolConverter}}"
+                            Click="RegisterButton_Click"/>
+                                </Grid>
+
+                            </StackPanel>
+
+                            <!-- ── ПРОФИЛЬ ── -->
+                            <StackPanel Visibility="{Binding ShowProfilePanel,
+                                    Converter={StaticResource BoolToVisibilityConverter}}">
+
+                                <TextBlock Text="{Binding LoggedInAs}"
+                           Foreground="White"
+                           FontSize="18"
+                           FontWeight="Bold"
+                           HorizontalAlignment="Center"
+                           Margin="0,10,0,24"/>
+
+                                <Button Content="LOG OUT"
+                        Height="36"
+                        Foreground="White"
+                        FontWeight="Bold"
+                        FontSize="11"
+                        Cursor="Hand"
+                        Click="LogoutButton_Click">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border Background="#8B1A1A"
+                                    CornerRadius="4" Padding="16,0">
+                                                <ContentPresenter HorizontalAlignment="Center"
+                                                  VerticalAlignment="Center"/>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter Property="Background" Value="#A52020"/>
+                                                </Trigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+
+                            </StackPanel>
 
                         </StackPanel>
                     </Border>
                 </Grid>
+
             </Grid>
         </Viewbox>
     </Grid>
