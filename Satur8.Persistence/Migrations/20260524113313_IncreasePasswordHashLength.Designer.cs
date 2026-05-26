@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Satur8.Persistence;
@@ -11,9 +12,11 @@ using Satur8.Persistence;
 namespace Satur8.Persistence.Migrations
 {
     [DbContext(typeof(SaturatorDbContext))]
-    partial class SaturatorDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260524113313_IncreasePasswordHashLength")]
+    partial class IncreasePasswordHashLength
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
