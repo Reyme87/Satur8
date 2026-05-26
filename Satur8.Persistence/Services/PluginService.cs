@@ -14,8 +14,10 @@ namespace Satur8.Persistence.Services
                 return;
             }
 
+            var basePath = Path.GetDirectoryName(typeof(PluginService).Assembly.Location)!;
+
             var builder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
+                .SetBasePath(basePath)
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
 
             IConfiguration configuration = builder.Build();
