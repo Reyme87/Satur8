@@ -14,6 +14,7 @@ namespace Satur8.UI
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
         }
 
+        // Parameters
         private double _driveValue = 1.0;
         private double _outputGainValue = 1.0;
         private double _evenAmountValue = 0.5;
@@ -24,8 +25,15 @@ namespace Satur8.UI
         private double _thresholdDb = -12.0;
         private double _ratioValue = 4.0;
         private bool _autoGainEnabled = false;
+
+        // Panel
         private bool _showAccountPanel;
 
+        // Auth state
+        private bool _isLoggedIn;
+        private string _loggedInAs = string.Empty;
+        private string _authError = string.Empty;
+        private bool _isLoading;
 
         public double DriveValue 
         { 
@@ -90,7 +98,46 @@ namespace Satur8.UI
         public bool ShowAccountPanel
         {
             get => _showAccountPanel;
-            set => Set(ref _showAccountPanel, value);
+            set
+            {
+                Set(ref _showAccountPanel, value);
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(ShowLoginForm)));
+                PropertyChanged?.Invoke(this,
+                    new PropertyChangedEventArgs(nameof(ShowProfilePanel)));
+            }
         }
+
+        public bool IsLoggedIn
+        {
+            get => _isLoggedIn;
+            set
+            {
+                Set(ref _isLoggedIn, value);
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowLoginForm)));
+                PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(ShowProfilePanel)));
+            }
+        }
+
+        public string LoggedInAs
+        {
+            get => _loggedInAs;
+            set => Set(ref _loggedInAs, value);
+        }
+
+        public string AuthError
+        {
+            get => _authError;
+            set => Set(ref _authError, value);
+        }
+
+        public bool IsLoading
+        {
+            get => _isLoading;
+            set => Set(ref _isLoading, value);
+        }
+
+        public bool ShowLoginForm => ShowAccountPanel && !IsLoggedIn;
+        public bool ShowProfilePanel => ShowAccountPanel && IsLoggedIn;
     }
 }
