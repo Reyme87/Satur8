@@ -29,7 +29,7 @@ namespace Satur8.Persistence.Services
             return AuthResult.Ok(user);
         }
 
-        public async Task<AuthResult> RegisterAsync(string login, string password, CancellationToken cancellationToken)
+        public async Task<AuthResult> RegisterAsync(string login, string password, CancellationToken cancellationToken = default)
         {
             if (string.IsNullOrWhiteSpace(login) || login.Length < 3)
             {
