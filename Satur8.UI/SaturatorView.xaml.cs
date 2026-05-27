@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
+using Satur8.Persistence.Misc;
 using Satur8.Persistence.Services;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
@@ -59,6 +60,11 @@ namespace Satur8.UI
             EventManager.RegisterClassHandler(typeof(PasswordBox),
                 UIElement.LostFocusEvent, new RoutedEventHandler(Input_LostFocus));
 
+            EventManager.RegisterClassHandler(typeof(ComboBox),
+                UIElement.GotFocusEvent, new RoutedEventHandler(Input_GotFocus));
+            EventManager.RegisterClassHandler(typeof(ComboBox),
+                UIElement.LostFocusEvent, new RoutedEventHandler(Input_LostFocus));
+
             Unloaded += (s, e) => RemoveHook();
         }
 
@@ -66,6 +72,8 @@ namespace Satur8.UI
         {
             if (e.OriginalSource is TextBox || e.OriginalSource is PasswordBox)
             {
+                if (_hookId != IntPtr.Zero) return;
+
                 _proc = HookCallback;
                 using var curProcess = Process.GetCurrentProcess();
                 using var curModule = curProcess.MainModule!;
@@ -213,11 +221,13 @@ namespace Satur8.UI
 
                 if (result.Success)
                 {
+                    _currentUserId = result.User!.UserId;
                     vm.LoggedInAs = "@" + result.User!.Login;
                     vm.IsLoggedIn = true;
                     vm.ShowAccountPanel = true;
                     LoginBox.Text = string.Empty;
                     PasswordBox.Password = string.Empty;
+                    _ = LoadPresetsAsync();
                 }
                 else
                 {
@@ -254,15 +264,17 @@ namespace Satur8.UI
             {
                 var auth = PluginService.Services.GetRequiredService<AuthService>();
 
-                var result = await auth.RegisterAsync(login, password, new CancellationToken());
+                var result = await auth.RegisterAsync(login, password);
 
                 if (result.Success)
                 {
+                    _currentUserId = result.User!.UserId;
                     vm.LoggedInAs = "@" + result.User!.Login;
                     vm.IsLoggedIn = true;
                     vm.ShowAccountPanel = true;
                     LoginBox.Text = string.Empty;
                     PasswordBox.Password = string.Empty;
+                    _ = LoadPresetsAsync();
                 }
                 else
                 {
@@ -297,6 +309,127 @@ namespace Satur8.UI
             vm.LoggedInAs = string.Empty;
             vm.AuthError = string.Empty;
             vm.ShowAccountPanel = false;
+        }
+
+        private async Task LoadPresetsAsync()
+        {
+            if (DataContext is not SaturatorViewModel vm) return;
+            try
+            {
+                var svc = (PresetService)PluginService.Services
+                    .GetService(typeof(PresetService))!;
+
+                var userId = vm.IsLoggedIn ? GetCurrentUserId() : (Guid?)null;
+                var presets = await svc.GetAllAsync(userId);
+                var cats = await svc.GetCategoriesAsync();
+
+                vm.SetPresets(presets);
+                vm.Categories = cats;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine($"LoadPresets failed: {ex.Message}");
+            }
+        }
+
+        private Guid? _currentUserId;
+
+        private Guid? GetCurrentUserId() => _currentUserId;
+
+        private void PresetList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (DataContext is not SaturatorViewModel vm) return;
+            if (vm.SelectedPreset == null) return;
+            vm.ApplyPreset(vm.SelectedPreset);
+        }
+
+        private async void FavouriteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn) return;
+            if (btn.Tag is not Guid presetId) return;
+            if (DataContext is not SaturatorViewModel vm) return;
+            if (_currentUserId == null)
+            {
+                vm.AuthError = "Войдите чтобы добавлять в избранное.";
+                vm.ShowAccountPanel = true;
+                return;
+            }
+
+            var svc = (PresetService)PluginService.Services
+                .GetService(typeof(PresetService))!;
+            await svc.ToggleFavouriteAsync(_currentUserId.Value, presetId);
+            await LoadPresetsAsync();
+        }
+
+        private void SavePresetButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not SaturatorViewModel vm) return;
+            if (!vm.IsLoggedIn)
+            {
+                vm.ShowAccountPanel = true;
+                return;
+            }
+            vm.NewPresetName = "";
+            vm.NewPresetDesc = "";
+            vm.NewPresetCategory = "";
+            vm.SaveError = "";
+            vm.ShowSavePanel = true;
+        }
+
+        private void CloseSavePanel_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is SaturatorViewModel vm)
+                vm.ShowSavePanel = false;
+        }
+
+        private async void ConfirmSavePreset_Click(object sender, RoutedEventArgs e)
+        {
+            if (DataContext is not SaturatorViewModel vm) return;
+            if (_currentUserId == null) return;
+
+            vm.IsLoading = true;
+            vm.SaveError = "";
+
+            try
+            {
+                var svc = (PresetService)PluginService.Services
+                    .GetService(typeof(PresetService))!;
+
+                var result = await svc.SavePresetAsync(
+                    _currentUserId.Value,
+                    vm.NewPresetName,
+                    vm.NewPresetDesc,
+                    vm.NewPresetCategory,
+                    new PresetParameters
+                    {
+                        Drive = vm.DriveValue,
+                        Output = vm.OutputGainValue,
+                        Even = vm.EvenAmountValue,
+                        Odd = vm.OddAmountValue,
+                        Bias = vm.BiasValue,
+                        Mix = vm.MixPercent,
+                        Threshold = vm.ThresholdDb,
+                        Ratio = vm.RatioValue
+                    });
+
+                if (result.Success)
+                {
+                    vm.ShowSavePanel = false;
+                    await LoadPresetsAsync();
+                }
+                else
+                {
+                    vm.SaveError = result.Error ?? "Ошибка сохранения.";
+                }
+            }
+            catch (Exception ex)
+            {
+                vm.SaveError = ex.Message;
+            }
+            finally
+            {
+                vm.IsLoading = false;
+            }
         }
     }
 }
