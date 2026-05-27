@@ -3,6 +3,8 @@ using AudioPlugSharpWPF;
 using Satur8.Maths;
 using Satur8.Persistence.Services;
 using Satur8.Processors;
+using System.IO;
+using System.Windows;
 using System.Windows.Controls;
 
 namespace Satur8.UI.VST
@@ -46,8 +48,6 @@ namespace Satur8.UI.VST
         public override void Initialize()
         {
             base.Initialize();
-
-            PluginService.Initialize();
 
             _stereoInput = new FloatAudioIOPort("Stereo Input", EAudioChannelConfiguration.Stereo);
             _stereoOutput = new FloatAudioIOPort("Stereo Output", EAudioChannelConfiguration.Stereo);
@@ -145,6 +145,17 @@ namespace Satur8.UI.VST
                 ValueFormat = "{0:0.0}"
             };
             AddParameter(_ratioParam);
+
+            try
+            {
+                Log("PluginService.Initialize start");
+                PluginService.Initialize();
+                Log("PluginService.Initialize OK");
+            }
+            catch (Exception ex)
+            {
+                Log($"PluginService FAILED: {ex.GetType().Name}: {ex.Message}");
+            }
         }
 
         public override void Process()
@@ -205,46 +216,83 @@ namespace Satur8.UI.VST
 
         public override UserControl GetEditorView()
         {
-            var view = new SaturatorView();
-            _viewModel = view.DataContext as SaturatorViewModel;
+            Log("GetEditorView start");
 
-            if (_viewModel != null)
+            try
             {
-                _viewModel.DriveValue = _driveParam.ProcessValue;
-                _viewModel.EvenAmountValue = _evenParam.ProcessValue;
-                _viewModel.OddAmountValue = _oddParam.ProcessValue;
-                _viewModel.BiasValue = _biasParam.ProcessValue;
-                _viewModel.OutputGainValue = _outputParam.ProcessValue;
-                _viewModel.MixPercent = _mixParam.ProcessValue;
-                _viewModel.ThresholdDb = _thresholdParam.ProcessValue;
-                _viewModel.RatioValue = _ratioParam.ProcessValue;
-
-                _viewModel.PropertyChanged += (s, e) =>
+                if (Application.Current == null)
                 {
-                    if (_viewModel == null) return;
-                    switch (e.PropertyName)
-                    {
-                        case nameof(SaturatorViewModel.DriveValue):
-                            _driveParam.ProcessValue = _viewModel.DriveValue; break;
-                        case nameof(SaturatorViewModel.EvenAmountValue):
-                            _evenParam.ProcessValue = _viewModel.EvenAmountValue; break;
-                        case nameof(SaturatorViewModel.OddAmountValue):
-                            _oddParam.ProcessValue = _viewModel.OddAmountValue; break;
-                        case nameof(SaturatorViewModel.BiasValue):
-                            _biasParam.ProcessValue = _viewModel.BiasValue; break;
-                        case nameof(SaturatorViewModel.OutputGainValue):
-                            _outputParam.ProcessValue = _viewModel.OutputGainValue; break;
-                        case nameof(SaturatorViewModel.MixPercent):
-                            _mixParam.ProcessValue = _viewModel.MixPercent; break;
-                        case nameof(SaturatorViewModel.ThresholdDb):
-                            _thresholdParam.ProcessValue = _viewModel.ThresholdDb; break;
-                        case nameof(SaturatorViewModel.RatioValue):
-                            _ratioParam.ProcessValue = _viewModel.RatioValue; break;
-                    }
-                };
-            }
+                    Log("Creating Application...");
+                    new Application { ShutdownMode = ShutdownMode.OnExplicitShutdown };
+                    Log("Application OK");
+                }
 
-            return view;
+                Log("Creating SaturatorView...");
+                var view = new SaturatorView();
+                Log("SaturatorView OK");
+
+                _viewModel = view.DataContext as SaturatorViewModel;
+                Log($"ViewModel: {(_viewModel == null ? "NULL" : "OK")}");
+
+                if (_viewModel != null)
+                {
+                    _viewModel.DriveValue = _driveParam.ProcessValue;
+                    _viewModel.EvenAmountValue = _evenParam.ProcessValue;
+                    _viewModel.OddAmountValue = _oddParam.ProcessValue;
+                    _viewModel.BiasValue = _biasParam.ProcessValue;
+                    _viewModel.OutputGainValue = _outputParam.ProcessValue;
+                    _viewModel.MixPercent = _mixParam.ProcessValue;
+                    _viewModel.ThresholdDb = _thresholdParam.ProcessValue;
+                    _viewModel.RatioValue = _ratioParam.ProcessValue;
+
+                    _viewModel.PropertyChanged += (s, e) =>
+                    {
+                        if (_viewModel == null) return;
+                        switch (e.PropertyName)
+                        {
+                            case nameof(SaturatorViewModel.DriveValue):
+                                _driveParam.ProcessValue = _viewModel.DriveValue; break;
+                            case nameof(SaturatorViewModel.EvenAmountValue):
+                                _evenParam.ProcessValue = _viewModel.EvenAmountValue; break;
+                            case nameof(SaturatorViewModel.OddAmountValue):
+                                _oddParam.ProcessValue = _viewModel.OddAmountValue; break;
+                            case nameof(SaturatorViewModel.BiasValue):
+                                _biasParam.ProcessValue = _viewModel.BiasValue; break;
+                            case nameof(SaturatorViewModel.OutputGainValue):
+                                _outputParam.ProcessValue = _viewModel.OutputGainValue; break;
+                            case nameof(SaturatorViewModel.MixPercent):
+                                _mixParam.ProcessValue = _viewModel.MixPercent; break;
+                            case nameof(SaturatorViewModel.ThresholdDb):
+                                _thresholdParam.ProcessValue = _viewModel.ThresholdDb; break;
+                            case nameof(SaturatorViewModel.RatioValue):
+                                _ratioParam.ProcessValue = _viewModel.RatioValue; break;
+                        }
+                    };
+                    Log("Bindings OK");
+                }
+
+                Log("GetEditorView end OK");
+                return view;
+            }
+            catch (Exception ex)
+            {
+                Log($"CRASH: {ex.GetType().Name}: {ex.Message}");
+                Log($"Inner: {ex.InnerException?.Message}");
+                Log($"Stack: {ex.StackTrace}");
+                return new UserControl();
+            }
+        }
+
+        private static void Log(string message)
+        {
+            try
+            {
+                var path = Path.Combine(
+                    Environment.GetFolderPath(Environment.SpecialFolder.Desktop),
+                    "satur8_log.txt");
+                File.AppendAllText(path, $"{DateTime.Now:HH:mm:ss.fff} {message}\n");
+            }
+            catch { }
         }
     }
 }
