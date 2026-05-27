@@ -17,6 +17,7 @@ namespace Satur8.Persistence
             });
             services.AddScoped<ISaturatorDbContext>(provider => provider.GetRequiredService<SaturatorDbContext>());
             services.AddScoped<AuthService>();
+            services.AddScoped<PresetService>();
 
             return services;
         }
