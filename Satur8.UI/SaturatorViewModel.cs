@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using Satur8.Persistence.Misc;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace Satur8.UI
@@ -139,5 +140,97 @@ namespace Satur8.UI
 
         public bool ShowLoginForm => ShowAccountPanel && !IsLoggedIn;
         public bool ShowProfilePanel => ShowAccountPanel && IsLoggedIn;
+
+        // Presets
+        private List<PresetDto> _allPresets = new();
+        private List<PresetDto> _filteredPresets = new();
+        private PresetDto? _selectedPreset;
+        private bool _showFavouritesOnly;
+        private bool _showSavePanel;
+
+        private string _newPresetName = "";
+        private string _newPresetDesc = "";
+        private string _newPresetCategory = "";
+        private string _saveError = "";
+        private List<string> _categories = new();
+
+        public List<PresetDto> FilteredPresets
+        {
+            get => _filteredPresets;
+            set => Set(ref _filteredPresets, value);
+        }
+
+        public PresetDto? SelectedPreset
+        {
+            get => _selectedPreset;
+            set => Set(ref _selectedPreset, value);
+        }
+
+        public bool ShowFavouritesOnly
+        {
+            get => _showFavouritesOnly;
+            set { Set(ref _showFavouritesOnly, value); ApplyFilter(); }
+        }
+
+        public bool ShowSavePanel
+        {
+            get => _showSavePanel;
+            set => Set(ref _showSavePanel, value);
+        }
+
+        public string NewPresetName
+        {
+            get => _newPresetName;
+            set => Set(ref _newPresetName, value);
+        }
+
+        public string NewPresetDesc
+        {
+            get => _newPresetDesc;
+            set => Set(ref _newPresetDesc, value);
+        }
+
+        public string NewPresetCategory
+        {
+            get => _newPresetCategory;
+            set => Set(ref _newPresetCategory, value);
+        }
+
+        public string SaveError
+        {
+            get => _saveError;
+            set => Set(ref _saveError, value);
+        }
+
+        public List<string> Categories
+        {
+            get => _categories;
+            set => Set(ref _categories, value);
+        }
+
+        public void SetPresets(List<PresetDto> presets)
+        {
+            _allPresets = presets;
+            ApplyFilter();
+        }
+
+        private void ApplyFilter()
+        {
+            FilteredPresets = _showFavouritesOnly
+                ? _allPresets.Where(p => p.IsFavourite).ToList()
+                : _allPresets;
+        }
+
+        public void ApplyPreset(PresetDto preset)
+        {
+            DriveValue = preset.Parameters.Drive;
+            OutputGainValue = preset.Parameters.Output;
+            EvenAmountValue = preset.Parameters.Even;
+            OddAmountValue = preset.Parameters.Odd;
+            BiasValue = preset.Parameters.Bias;
+            MixPercent = preset.Parameters.Mix;
+            ThresholdDb = preset.Parameters.Threshold;
+            RatioValue = preset.Parameters.Ratio;
+        }
     }
 }
