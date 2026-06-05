@@ -27,7 +27,8 @@ namespace Satur8.UI.VST
         private AudioPluginParameter _outputParam = null!;
         private AudioPluginParameter _mixParam = null!;
         private AudioPluginParameter _thresholdParam = null!;
-        private AudioPluginParameter _ratioParam = null!;
+        //private AudioPluginParameter _ratioParam = null!;
+        private AudioPluginParameter _clipTypeParam = null!;
 
         public SaturatorPlugin()
         {
@@ -135,16 +136,27 @@ namespace Satur8.UI.VST
             };
             AddParameter(_thresholdParam);
 
-            _ratioParam = new AudioPluginParameter
+            //_ratioParam = new AudioPluginParameter
+            //{
+            //    ID = "Ratio",
+            //    Name = "Ratio",
+            //    MinValue = 1.0,
+            //    MaxValue = 10.0,
+            //    DefaultValue = 4.0,
+            //    ValueFormat = "{0:0.0}"
+            //};
+            //AddParameter(_ratioParam);
+
+            _clipTypeParam = new AudioPluginParameter
             {
-                ID = "Ratio",
-                Name = "Ratio",
-                MinValue = 1.0,
-                MaxValue = 10.0,
-                DefaultValue = 4.0,
-                ValueFormat = "{0:0.0}"
+                ID = "ClipType",
+                Name = "Clip Type",
+                MinValue = 0.0,
+                MaxValue = 3.0,
+                DefaultValue = 0.0,
+                ValueFormat = "{0:0}"
             };
-            AddParameter(_ratioParam);
+            AddParameter(_clipTypeParam);
 
             try
             {
@@ -170,7 +182,17 @@ namespace Satur8.UI.VST
             float outputDb = (float)_outputParam.ProcessValue;
             float mixPercent = (float)_mixParam.ProcessValue;
             float thresholdDb = (float)_thresholdParam.ProcessValue;
-            float ratio = (float)_ratioParam.ProcessValue;
+            //float ratio = (float)_ratioParam.ProcessValue;
+
+            int clipTypeIndex = (int)Math.Round(_clipTypeParam.ProcessValue);
+            _saturator.ClipType = clipTypeIndex switch
+            {
+                0 => "Soft",
+                1 => "Hard",
+                2 => "Tube",
+                3 => "Arctan",
+                _ => "Soft"
+            };
 
             float mix = mixPercent / 100f;
             float outputLinear = (float)AudioPluginParameter.DBToLinear(outputDb);
@@ -182,8 +204,8 @@ namespace Satur8.UI.VST
             _saturator.OutputGain = outputLinear;
 
             _dynamics.ThresholdDb = thresholdDb;
-            _dynamics.Ratio = ratio;
-            _dynamics.UpdateTimeConstants();
+            //_dynamics.Ratio = ratio;
+            //_dynamics.UpdateTimeConstants();
 
             Span<float> leftIn = _stereoInput.GetAudioBuffer(0);
             Span<float> rightIn = _stereoInput.GetAudioBuffer(1);
@@ -243,7 +265,8 @@ namespace Satur8.UI.VST
                     _viewModel.OutputGainValue = _outputParam.ProcessValue;
                     _viewModel.MixPercent = _mixParam.ProcessValue;
                     _viewModel.ThresholdDb = _thresholdParam.ProcessValue;
-                    _viewModel.RatioValue = _ratioParam.ProcessValue;
+                    //_viewModel.RatioValue = _ratioParam.ProcessValue;
+                    _viewModel.ClipTypeIndex = (int)Math.Round(_clipTypeParam.ProcessValue);
 
                     _viewModel.PropertyChanged += (s, e) =>
                     {
@@ -264,8 +287,10 @@ namespace Satur8.UI.VST
                                 _mixParam.ProcessValue = _viewModel.MixPercent; break;
                             case nameof(SaturatorViewModel.ThresholdDb):
                                 _thresholdParam.ProcessValue = _viewModel.ThresholdDb; break;
-                            case nameof(SaturatorViewModel.RatioValue):
-                                _ratioParam.ProcessValue = _viewModel.RatioValue; break;
+                            //case nameof(SaturatorViewModel.RatioValue):
+                            //    _ratioParam.ProcessValue = _viewModel.RatioValue; break;
+                            case nameof(SaturatorViewModel.ClipTypeIndex):
+                                _clipTypeParam.ProcessValue = _viewModel.ClipTypeIndex; break;
                         }
                     };
                     Log("Bindings OK");
