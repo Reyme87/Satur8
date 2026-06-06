@@ -10,5 +10,6 @@
         public double Mix { get; set; }
         public double Threshold { get; set; }
         public double Ratio { get; set; }
+        public int ClipType { get; set; }
     }
 }
