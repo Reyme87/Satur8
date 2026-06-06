@@ -8,24 +8,43 @@
     <Nullable>enable</Nullable>
     <Platforms>x64</Platforms>
     <PlatformTarget>x64</PlatformTarget>
+	<RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
 	<VstPluginName>Satur8.UIBridge</VstPluginName>
 	<VstOutputDir>C:\Program Files\Common Files\VST3\$(VstPluginName).vst3\Contents\x86_64-win</VstOutputDir>
   </PropertyGroup>
+
+  <ItemGroup>
+    <Page Remove="Themes\Colors.xaml" />
+    <Page Remove="Themes\Styles.xaml" />
+  </ItemGroup>
 	
   <ItemGroup>
     <PackageReference Include="AudioPlugSharp" Version="0.7.9" />
     <PackageReference Include="AudioPlugSharpVst3" Version="0.7.9" />
     <PackageReference Include="AudioPlugSharpWPF" Version="0.7.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="10.0.8" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Satur8.Console\Satur8.Console.csproj" />
+    <ProjectReference Include="..\Satur8.Persistence\Satur8.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Themes\Colors.xaml" />
+    <Resource Include="Themes\Styles.xaml" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Update="SaturatorView.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 	
 <!--<Target Name="PostBuild" AfterTargets="PostBuildEvent">

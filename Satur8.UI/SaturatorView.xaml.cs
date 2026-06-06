@@ -409,7 +409,8 @@ namespace Satur8.UI
                         Bias = vm.BiasValue,
                         Mix = vm.MixPercent,
                         Threshold = vm.ThresholdDb,
-                        Ratio = vm.RatioValue
+                        Ratio = 4,
+                        ClipType = vm.ClipTypeIndex
                     });
 
                 if (result.Success)

@@ -6,252 +6,25 @@
              xmlns:aps="clr-namespace:AudioPlugSharpWPF;assembly=AudioPlugSharpWPF"
              xmlns:conv="clr-namespace:Satur8.UI.Converters"
              mc:Ignorable="d"
-             Background="#1A1A1A"
              Focusable="True"
              FocusManager.IsFocusScope="True">
 
     <UserControl.Resources>
-        <conv:BoolToVisibilityConverter   x:Key="BoolToVisibilityConverter"/>
-        <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
-        <conv:InverseBoolConverter x:Key="InverseBoolConverter"/>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Themes/Styles.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
 
-        <Style x:Key="KnobLabel" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#888888"/>
-            <Setter Property="FontSize" Value="9"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,0,0,6"/>
-        </Style>
-
-        <Style x:Key="KnobValue" TargetType="TextBlock">
-            <Setter Property="Foreground" Value="#FFAA33"/>
-            <Setter Property="FontSize" Value="10"/>
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="0,6,0,0"/>
-        </Style>
-
-        <Style x:Key="KnobPanel" TargetType="StackPanel">
-            <Setter Property="HorizontalAlignment" Value="Center"/>
-            <Setter Property="VerticalAlignment" Value="Center"/>
-            <Setter Property="Margin" Value="6,8"/>
-            <Setter Property="Width" Value="90"/>
-        </Style>
-
-        <Style x:Key="SectionSeparator" TargetType="Rectangle">
-            <Setter Property="Width" Value="1"/>
-            <Setter Property="Fill" Value="#2E2E2E"/>
-            <Setter Property="VerticalAlignment" Value="Stretch"/>
-            <Setter Property="Margin" Value="0,8"/>
-        </Style>
-
-        <Style x:Key="PrimaryButton" TargetType="Button">
-            <Setter Property="Background" Value="#FFAA33"/>
-            <Setter Property="Foreground" Value="#111111"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="BorderThickness" Value="0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                CornerRadius="4" Padding="16,0">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#FFB84D"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="SecondaryButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#AAAAAA"/>
-            <Setter Property="FontWeight" Value="Bold"/>
-            <Setter Property="FontSize" Value="11"/>
-            <Setter Property="Height" Value="36"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="BorderBrush" Value="#3A3A3A"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4" Padding="16,0">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" Value="#555555"/>
-                                <Setter Property="Foreground" Value="White"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
-
-        <Style x:Key="DarkInput" TargetType="TextBox">
-            <Setter Property="Background" Value="#111111"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="CaretBrush" Value="White"/>
-            <Setter Property="BorderBrush" Value="#3A3A3A"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Height" Value="34"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="12"/>
-            <Setter Property="SelectionBrush" Value="#FFAA33"/>
-        </Style>
-
-        <Style x:Key="DarkPassword" TargetType="PasswordBox">
-            <Setter Property="Background" Value="#111111"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="CaretBrush" Value="White"/>
-            <Setter Property="BorderBrush" Value="#3A3A3A"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Height" Value="34"/>
-            <Setter Property="Padding" Value="8,0"/>
-            <Setter Property="VerticalContentAlignment" Value="Center"/>
-            <Setter Property="FontSize" Value="12"/>
-        </Style>
-
-        <Style x:Key="DarkComboBox" TargetType="ComboBox">
-            <Setter Property="Background" Value="#1E1E1E"/>
-            <Setter Property="Foreground" Value="White"/>
-            <Setter Property="BorderBrush" Value="#3A3A3A"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Height" Value="26"/>
-            <Setter Property="Padding" Value="6,0"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="ComboBox">
-                        <Grid>
-                            <Border x:Name="Border"
-                                    Background="{TemplateBinding Background}"
-                                    BorderBrush="{TemplateBinding BorderBrush}"
-                                    BorderThickness="{TemplateBinding BorderThickness}"
-                                    CornerRadius="4"/>
-                            <DockPanel Margin="4,0,0,0">
-                                <ToggleButton DockPanel.Dock="Right" Width="20"
-                                              Focusable="False"
-                                              IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
-                                                  RelativeSource={RelativeSource TemplatedParent}}"
-                                              ClickMode="Press"
-                                              Background="Transparent" BorderThickness="0">
-                                    <TextBlock Text="▾" Foreground="#666666" FontSize="10"
-                                               VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </ToggleButton>
-                                <TextBox x:Name="PART_EditableTextBox"
-                                         Background="Transparent"
-                                         Foreground="White"
-                                         CaretBrush="White"
-                                         BorderThickness="0"
-                                         VerticalAlignment="Center"
-                                         Focusable="True"
-                                         Visibility="Collapsed"
-                                         Text="{Binding Text, RelativeSource={RelativeSource TemplatedParent},
-                                                Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
-                                <ContentPresenter x:Name="ContentSite"
-                                                  IsHitTestVisible="False"
-                                                  Content="{TemplateBinding SelectionBoxItem}"
-                                                  ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
-                                                  VerticalAlignment="Center"/>
-                            </DockPanel>
-                            <Popup x:Name="Popup" Placement="Bottom"
-                                   IsOpen="{TemplateBinding IsDropDownOpen}"
-                                   AllowsTransparency="True" Focusable="False"
-                                   PopupAnimation="Slide">
-                                <Grid SnapsToDevicePixels="True"
-                                      MinWidth="{TemplateBinding ActualWidth}"
-                                      MaxHeight="200">
-                                    <Border Background="#1E1E1E" BorderBrush="#3A3A3A"
-                                            BorderThickness="1" CornerRadius="0,0,4,4"/>
-                                    <ScrollViewer SnapsToDevicePixels="True">
-                                        <StackPanel IsItemsHost="True"
-                                                    KeyboardNavigation.DirectionalNavigation="Contained"/>
-                                    </ScrollViewer>
-                                </Grid>
-                            </Popup>
-                        </Grid>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsEditable" Value="True">
-                                <Setter TargetName="PART_EditableTextBox" Property="Visibility" Value="Visible"/>
-                                <Setter TargetName="ContentSite" Property="Visibility" Value="Collapsed"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-            <Style.Resources>
-                <Style TargetType="ComboBoxItem">
-                    <Setter Property="Background" Value="#1E1E1E"/>
-                    <Setter Property="Foreground" Value="White"/>
-                    <Setter Property="Padding" Value="8,4"/>
-                    <Setter Property="Template">
-                        <Setter.Value>
-                            <ControlTemplate TargetType="ComboBoxItem">
-                                <Border x:Name="Bd"
-                                        Background="{TemplateBinding Background}"
-                                        Padding="{TemplateBinding Padding}">
-                                    <ContentPresenter/>
-                                </Border>
-                                <ControlTemplate.Triggers>
-                                    <Trigger Property="IsHighlighted" Value="True">
-                                        <Setter TargetName="Bd" Property="Background" Value="#2A2A2A"/>
-                                    </Trigger>
-                                    <Trigger Property="IsSelected" Value="True">
-                                        <Setter TargetName="Bd" Property="Background" Value="#333333"/>
-                                    </Trigger>
-                                </ControlTemplate.Triggers>
-                            </ControlTemplate>
-                        </Setter.Value>
-                    </Setter>
-                </Style>
-            </Style.Resources>
-        </Style>
-
-        <Style x:Key="IconButton" TargetType="Button">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#AAAAAA"/>
-            <Setter Property="BorderBrush" Value="#3A3A3A"/>
-            <Setter Property="BorderThickness" Value="1"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="4">
-                            <ContentPresenter HorizontalAlignment="Center"
-                                              VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="BorderBrush" Value="#555555"/>
-                                <Setter Property="Foreground" Value="White"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
+            <conv:BoolToVisibilityConverter   x:Key="BoolToVisibilityConverter"/>
+            <conv:StringToVisibilityConverter x:Key="StringToVisibilityConverter"/>
+            <conv:InverseBoolConverter        x:Key="InverseBoolConverter"/>
+        </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid>
-
+    <Grid Background="{StaticResource BackgroundBrush}">
         <Viewbox Stretch="Uniform" StretchDirection="Both">
-            <Grid Width="640" Height="420" Background="#1A1A1A">
+            <Grid Width="640" Height="420"
+                  Background="{StaticResource BackgroundBrush}">
 
                 <!-- ===== ОСНОВНОЙ ИНТЕРФЕЙС ===== -->
                 <Grid Margin="16,12,16,12">
@@ -264,76 +37,36 @@
                     <!-- TOP BAR -->
                     <DockPanel Grid.Row="0" VerticalAlignment="Center">
 
-                        <Button Content="⚙" Style="{StaticResource IconButton}"
+                        <!-- Правые элементы — ⚙ Account -->
+                        <Button Style="{StaticResource IconButton}"
                                 Height="26" Width="26" FontSize="14"
                                 DockPanel.Dock="Right" Margin="0,0,0,0"
-                                Click="AccountButton_Click"/>
-
-                        <Button Content="SAVE" Height="26" FontSize="10" FontWeight="Bold"
-                                DockPanel.Dock="Right" Margin="0,0,4,0"
-                                Background="#2A2A2A" Foreground="#FFAA33"
-                                BorderBrush="#3A3A3A" BorderThickness="1"
-                                Cursor="Hand" Click="SavePresetButton_Click">
-                            <Button.Template>
-                                <ControlTemplate TargetType="Button">
-                                    <Border Background="{TemplateBinding Background}"
-                                            BorderBrush="{TemplateBinding BorderBrush}"
-                                            BorderThickness="{TemplateBinding BorderThickness}"
-                                            CornerRadius="4" Padding="10,0">
-                                        <ContentPresenter HorizontalAlignment="Center"
-                                                          VerticalAlignment="Center"/>
-                                    </Border>
-                                    <ControlTemplate.Triggers>
-                                        <Trigger Property="IsMouseOver" Value="True">
-                                            <Setter Property="Background" Value="#333333"/>
-                                        </Trigger>
-                                    </ControlTemplate.Triggers>
-                                </ControlTemplate>
-                            </Button.Template>
+                                Click="AccountButton_Click">
+                            <TextBlock Text="⚙" FontSize="13"
+                                       Foreground="{StaticResource TextSecondaryBrush}"/>
                         </Button>
 
-                        <ToggleButton Content="★" Height="26" Width="26"
+                        <!-- SAVE -->
+                        <Button Style="{StaticResource SaveButton}"
+                                Height="26" DockPanel.Dock="Right" Margin="0,0,4,0"
+                                Click="SavePresetButton_Click">
+                            <TextBlock Text="SAVE" FontSize="10" FontWeight="Bold"/>
+                        </Button>
+
+                        <!-- ★ Избранное -->
+                        <ToggleButton Style="{StaticResource FavouriteToggle}"
+                                      Content="★" Height="26" Width="26"
                                       FontSize="13" FontWeight="Bold"
                                       DockPanel.Dock="Right" Margin="0,0,4,0"
-                                      IsChecked="{Binding ShowFavouritesOnly, Mode=TwoWay}"
-                                      Cursor="Hand">
-                            <ToggleButton.Style>
-                                <Style TargetType="ToggleButton">
-                                    <Setter Property="Background" Value="Transparent"/>
-                                    <Setter Property="Foreground" Value="#555555"/>
-                                    <Setter Property="BorderBrush" Value="#3A3A3A"/>
-                                    <Setter Property="BorderThickness" Value="1"/>
-                                    <Setter Property="Template">
-                                        <Setter.Value>
-                                            <ControlTemplate TargetType="ToggleButton">
-                                                <Border x:Name="Bd"
-                                                        Background="{TemplateBinding Background}"
-                                                        BorderBrush="{TemplateBinding BorderBrush}"
-                                                        BorderThickness="1" CornerRadius="4">
-                                                    <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                                                </Border>
-                                                <ControlTemplate.Triggers>
-                                                    <Trigger Property="IsChecked" Value="True">
-                                                        <Setter TargetName="Bd" Property="Background" Value="#2A2200"/>
-                                                        <Setter Property="Foreground" Value="#FFAA33"/>
-                                                        <Setter TargetName="Bd" Property="BorderBrush" Value="#FFAA33"/>
-                                                    </Trigger>
-                                                </ControlTemplate.Triggers>
-                                            </ControlTemplate>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Style>
-                            </ToggleButton.Style>
-                        </ToggleButton>
+                                      IsChecked="{Binding ShowFavouritesOnly, Mode=TwoWay}"/>
 
+                        <!-- Список пресетов -->
                         <ComboBox Style="{StaticResource DarkComboBox}"
-                                  Height="26"
+                                  Height="26" Width="130"
                                   DockPanel.Dock="Right" Margin="0,0,4,0"
-                                  Width="130"
                                   ItemsSource="{Binding FilteredPresets}"
                                   SelectedItem="{Binding SelectedPreset, Mode=TwoWay}"
-                                  SelectionChanged="PresetList_SelectionChanged">       
+                                  SelectionChanged="PresetList_SelectionChanged">
                             <ComboBox.ItemTemplate>
                                 <DataTemplate>
                                     <DockPanel>
@@ -346,13 +79,13 @@
                                                 Cursor="Hand">
                                             <Button.Style>
                                                 <Style TargetType="Button">
-                                                    <Setter Property="Content" Value="☆"/>
-                                                    <Setter Property="Foreground" Value="#555555"/>
-                                                    <Setter Property="FontSize" Value="10"/>
+                                                    <Setter Property="Content"    Value="☆"/>
+                                                    <Setter Property="Foreground" Value="{StaticResource TextDisabledBrush}"/>
+                                                    <Setter Property="FontSize"   Value="10"/>
                                                     <Style.Triggers>
                                                         <DataTrigger Binding="{Binding IsFavourite}" Value="True">
-                                                            <Setter Property="Content" Value="★"/>
-                                                            <Setter Property="Foreground" Value="#FFAA33"/>
+                                                            <Setter Property="Content"    Value="★"/>
+                                                            <Setter Property="Foreground" Value="{StaticResource AccentBrush}"/>
                                                         </DataTrigger>
                                                     </Style.Triggers>
                                                 </Style>
@@ -360,25 +93,33 @@
                                         </Button>
                                         <StackPanel>
                                             <TextBlock Text="{Binding Name}"
-                                                       Foreground="White" FontSize="11"
+                                                       Foreground="{StaticResource TextPrimaryBrush}"
+                                                       FontSize="11"
                                                        TextTrimming="CharacterEllipsis"/>
                                             <TextBlock Text="{Binding CategoryName}"
-                                                       Foreground="#666666" FontSize="9"/>
+                                                       Foreground="{StaticResource TextDisabledBrush}"
+                                                       FontSize="9"/>
                                         </StackPanel>
                                     </DockPanel>
                                 </DataTemplate>
                             </ComboBox.ItemTemplate>
                         </ComboBox>
 
-                        <TextBlock Text="SATUR8" Foreground="#FFAA33" FontWeight="Bold"
-                                   FontSize="20" VerticalAlignment="Center"
+                        <!-- Заголовок -->
+                        <TextBlock Text="SATUR8"
+                                   Foreground="{StaticResource AccentBrush}"
+                                   FontWeight="Bold" FontSize="20"
+                                   VerticalAlignment="Center"
                                    DockPanel.Dock="Left" Margin="0,0,8,0"/>
-                        <TextBlock Text="v1.0" Foreground="#444444" FontSize="10"
-                                   VerticalAlignment="Center" Margin="0,3,0,0"/>
+                        <TextBlock Text="v1.0"
+                                   Foreground="{StaticResource TextDisabledBrush}"
+                                   FontSize="10" VerticalAlignment="Center"
+                                   Margin="0,3,0,0"/>
                     </DockPanel>
 
-                    <Rectangle Grid.Row="0"
-                               Height="1" Fill="#2A2A2A"
+                    <!-- Линия под топ-баром -->
+                    <Rectangle Grid.Row="0" Height="1"
+                               Fill="{StaticResource SeparatorBrush}"
                                VerticalAlignment="Bottom"/>
 
                     <!-- ROW 1: Drive / Output / Even / Odd -->
@@ -440,11 +181,12 @@
                         </StackPanel>
                     </Grid>
 
-                    <Rectangle Grid.Row="1"
-                               Height="1" Fill="#2A2A2A"
+                    <!-- Линия между рядами -->
+                    <Rectangle Grid.Row="1" Height="1"
+                               Fill="{StaticResource SeparatorBrush}"
                                VerticalAlignment="Bottom"/>
 
-                    <!-- ROW 2: Bias / Mix / Threshold / Ratio -->
+                    <!-- ROW 2: Bias / Mix / Threshold / Clip Type -->
                     <Grid Grid.Row="2">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
@@ -492,138 +234,118 @@
 
                         <Rectangle Grid.Column="5" Style="{StaticResource SectionSeparator}"/>
 
-                        <StackPanel Grid.Column="6" Style="{StaticResource KnobPanel}">
-                            <TextBlock Text="RATIO" Style="{StaticResource KnobLabel}"/>
-                            <aps:Dial Width="80" Height="80"
-                                      Minimum="1" Maximum="10" DefaultValue="4"
-                                      Value="{Binding RatioValue, Mode=TwoWay}"
-                                      HorizontalAlignment="Center"/>
-                            <TextBlock Text="{Binding RatioValue, StringFormat={}{0:F1}}"
-                                       Style="{StaticResource KnobValue}"/>
+                        <!-- CLIP TYPE вместо RATIO -->
+                        <StackPanel Grid.Column="6" Style="{StaticResource KnobPanel}"
+                                    VerticalAlignment="Center">
+                            <TextBlock Text="CLIP TYPE" Style="{StaticResource KnobLabel}"/>
+                            <ComboBox Style="{StaticResource DarkComboBox}"
+                                      Height="30" Margin="0,8,0,0"
+                                      SelectedIndex="{Binding ClipTypeIndex, Mode=TwoWay}">
+                                <ComboBoxItem Content="Soft"/>
+                                <ComboBoxItem Content="Hard"/>
+                                <ComboBoxItem Content="Tube"/>
+                                <ComboBoxItem Content="Arctan"/>
+                            </ComboBox>
                         </StackPanel>
                     </Grid>
 
                 </Grid>
 
-                <Grid Background="#CC0D0D0D"
-                        Visibility="{Binding ShowSavePanel,
-                        Converter={StaticResource BoolToVisibilityConverter}}">
-                    <Border Width="300" Background="#1E1E1E"
-                            BorderBrush="#333333" BorderThickness="1"
-                            CornerRadius="10" Padding="24,20"
-                            HorizontalAlignment="Center" VerticalAlignment="Center">
+                <!-- ===== SAVE PRESET OVERLAY ===== -->
+                <Grid Background="{StaticResource ModalOverlayBrush}"
+                      Visibility="{Binding ShowSavePanel,
+                                   Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border Style="{StaticResource OverlayPanel}">
                         <StackPanel>
 
                             <Grid Margin="0,0,0,20">
-                                <TextBlock Text="SAVE PRESET" Foreground="#FFAA33"
+                                <TextBlock Text="SAVE PRESET"
+                                           Foreground="{StaticResource AccentBrush}"
                                            FontSize="16" FontWeight="Bold"
                                            VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                                <Button Content="← BACK" Style="{StaticResource SecondaryButton}"
+                                <Button Content="← BACK"
+                                        Style="{StaticResource SecondaryButton}"
                                         Height="26" FontSize="10"
                                         HorizontalAlignment="Right" VerticalAlignment="Center"
                                         Click="CloseSavePanel_Click"/>
                             </Grid>
 
-                            <Border Background="#2A1010" BorderBrush="#6B2020"
-                                    BorderThickness="1" CornerRadius="4"
-                                    Padding="8,6" Margin="0,0,0,12"
+                            <Border Style="{StaticResource ErrorBorder}"
                                     Visibility="{Binding SaveError,
-                                    Converter={StaticResource StringToVisibilityConverter}}">
-                                <TextBlock Text="{Binding SaveError}" Foreground="#FF6B6B"
+                                                 Converter={StaticResource StringToVisibilityConverter}}">
+                                <TextBlock Text="{Binding SaveError}"
+                                           Foreground="{StaticResource ErrorTextBrush}"
                                            FontSize="10" TextWrapping="Wrap"/>
                             </Border>
 
-                            <TextBlock Text="PRESET NAME" Foreground="#666666"
-                                       FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="PRESET NAME" Style="{StaticResource FieldLabel}"/>
                             <TextBox x:Name="PresetNameBox"
                                      Style="{StaticResource DarkInput}"
-                                     Text="{Binding NewPresetName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding NewPresetName, Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,14"/>
 
-                            <TextBlock Text="DESCRIPTION (необязательно)" Foreground="#666666"
-                                       FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="DESCRIPTION (необязательно)"
+                                       Style="{StaticResource FieldLabel}"/>
                             <TextBox Style="{StaticResource DarkInput}"
-                                     Text="{Binding NewPresetDesc, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                     Text="{Binding NewPresetDesc, Mode=TwoWay,
+                                            UpdateSourceTrigger=PropertyChanged}"
                                      Margin="0,0,0,14"/>
 
-                            <TextBlock Text="CATEGORY" Foreground="#666666"
-                                       FontSize="9" FontWeight="Bold" Margin="0,0,0,4"/>
+                            <TextBlock Text="CATEGORY" Style="{StaticResource FieldLabel}"/>
                             <ComboBox Style="{StaticResource DarkComboBox}"
                                       IsEditable="True"
-                                      Text="{Binding NewPresetCategory, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                                      Text="{Binding NewPresetCategory, Mode=TwoWay,
+                                             UpdateSourceTrigger=PropertyChanged}"
                                       ItemsSource="{Binding Categories}"
                                       Height="34" Margin="0,0,0,22"/>
 
                             <Button Content="SAVE PRESET"
                                     Style="{StaticResource PrimaryButton}"
-                                    IsEnabled="{Binding IsLoading, Converter={StaticResource InverseBoolConverter}}"
+                                    IsEnabled="{Binding IsLoading,
+                                                Converter={StaticResource InverseBoolConverter}}"
                                     Click="ConfirmSavePreset_Click"/>
-
                         </StackPanel>
                     </Border>
                 </Grid>
 
                 <!-- ===== ACCOUNT OVERLAY ===== -->
-                <Grid Background="#CC0D0D0D"
-                      Visibility="{Binding ShowAccountPanel, Converter={StaticResource BoolToVisibilityConverter}}">
-
-                    <Border Width="300"
-                            Background="#1E1E1E"
-                            BorderBrush="#333333"
-                            BorderThickness="1"
-                            CornerRadius="10"
-                            Padding="24,20"
-                            HorizontalAlignment="Center"
-                            VerticalAlignment="Center">
+                <Grid Background="{StaticResource ModalOverlayBrush}"
+                      Visibility="{Binding ShowAccountPanel,
+                                   Converter={StaticResource BoolToVisibilityConverter}}">
+                    <Border Style="{StaticResource OverlayPanel}">
                         <StackPanel>
 
-                            <!-- Заголовок -->
                             <Grid Margin="0,0,0,20">
                                 <TextBlock Text="ACCOUNT"
-                                           Foreground="#FFAA33"
-                                           FontSize="16"
-                                           FontWeight="Bold"
-                                           VerticalAlignment="Center"
-                                           HorizontalAlignment="Left"/>
+                                           Foreground="{StaticResource AccentBrush}"
+                                           FontSize="16" FontWeight="Bold"
+                                           VerticalAlignment="Center" HorizontalAlignment="Left"/>
                                 <Button Content="← BACK"
                                         Style="{StaticResource SecondaryButton}"
                                         Height="26" FontSize="10"
-                                        HorizontalAlignment="Right"
-                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Right" VerticalAlignment="Center"
                                         Click="CloseAccountPanel_Click"/>
                             </Grid>
 
-                            <!-- ── ФОРМА ВХОДА ── -->
+                            <!-- Форма входа -->
                             <StackPanel Visibility="{Binding ShowLoginForm,
-                                    Converter={StaticResource BoolToVisibilityConverter}}">
+                                        Converter={StaticResource BoolToVisibilityConverter}}">
 
-                                <!-- Сообщение об ошибке -->
-                                <Border Background="#2A1010"
-                                        BorderBrush="#6B2020"
-                                        BorderThickness="1"
-                                        CornerRadius="4"
-                                        Padding="8,6"
-                                        Margin="0,0,0,12"
+                                <Border Style="{StaticResource ErrorBorder}"
                                         Visibility="{Binding AuthError,
-                                        Converter={StaticResource StringToVisibilityConverter}}">
+                                                     Converter={StaticResource StringToVisibilityConverter}}">
                                     <TextBlock Text="{Binding AuthError}"
-                                               Foreground="#FF6B6B"
-                                               FontSize="10"
-                                               TextWrapping="Wrap"/>
+                                               Foreground="{StaticResource ErrorTextBrush}"
+                                               FontSize="10" TextWrapping="Wrap"/>
                                 </Border>
 
-                                <TextBlock Text="LOGIN"
-                                           Foreground="#666666"
-                                           FontSize="9" FontWeight="Bold"
-                                           Margin="0,0,0,4"/>
+                                <TextBlock Text="LOGIN" Style="{StaticResource FieldLabel}"/>
                                 <TextBox x:Name="LoginBox"
                                          Style="{StaticResource DarkInput}"
                                          Margin="0,0,0,14"/>
 
-                                <TextBlock Text="PASSWORD"
-                                           Foreground="#666666"
-                                           FontSize="9" FontWeight="Bold"
-                                           Margin="0,0,0,4"/>
+                                <TextBlock Text="PASSWORD" Style="{StaticResource FieldLabel}"/>
                                 <PasswordBox x:Name="PasswordBox"
                                              Style="{StaticResource DarkPassword}"
                                              Margin="0,0,0,22"/>
@@ -634,56 +356,32 @@
                                         <ColumnDefinition Width="8"/>
                                         <ColumnDefinition Width="*"/>
                                     </Grid.ColumnDefinitions>
-                                    <Button Grid.Column="0"
-                                            Content="LOG IN"
+                                    <Button Grid.Column="0" Content="LOG IN"
                                             Style="{StaticResource PrimaryButton}"
                                             IsEnabled="{Binding IsLoading,
-                                            Converter={StaticResource InverseBoolConverter}}"
+                                                        Converter={StaticResource InverseBoolConverter}}"
                                             Click="LoginButton_Click"/>
-                                    <Button Grid.Column="2"
-                                            Content="REGISTER"
+                                    <Button Grid.Column="2" Content="REGISTER"
                                             Style="{StaticResource SecondaryButton}"
                                             IsEnabled="{Binding IsLoading,
-                                            Converter={StaticResource InverseBoolConverter}}"
+                                                        Converter={StaticResource InverseBoolConverter}}"
                                             Click="RegisterButton_Click"/>
                                 </Grid>
-
                             </StackPanel>
 
-                            <!-- ── ПРОФИЛЬ ── -->
+                            <!-- Профиль -->
                             <StackPanel Visibility="{Binding ShowProfilePanel,
-                                    Converter={StaticResource BoolToVisibilityConverter}}">
+                                        Converter={StaticResource BoolToVisibilityConverter}}">
 
                                 <TextBlock Text="{Binding LoggedInAs}"
-                                           Foreground="White"
-                                           FontSize="18"
-                                           FontWeight="Bold"
+                                           Foreground="{StaticResource TextPrimaryBrush}"
+                                           FontSize="18" FontWeight="Bold"
                                            HorizontalAlignment="Center"
                                            Margin="0,10,0,24"/>
 
                                 <Button Content="LOG OUT"
-                                        Height="36"
-                                        Foreground="White"
-                                        FontWeight="Bold"
-                                        FontSize="11"
-                                        Cursor="Hand"
-                                        Click="LogoutButton_Click">
-                                    <Button.Template>
-                                        <ControlTemplate TargetType="Button">
-                                            <Border Background="#8B1A1A"
-                                                    CornerRadius="4" Padding="16,0">
-                                                <ContentPresenter HorizontalAlignment="Center"
-                                                  VerticalAlignment="Center"/>
-                                            </Border>
-                                            <ControlTemplate.Triggers>
-                                                <Trigger Property="IsMouseOver" Value="True">
-                                                    <Setter Property="Background" Value="#A52020"/>
-                                                </Trigger>
-                                            </ControlTemplate.Triggers>
-                                        </ControlTemplate>
-                                    </Button.Template>
-                                </Button>
-
+                                        Style="{StaticResource LogoutButton}"
+                                        Click="LogoutButton_Click"/>
                             </StackPanel>
 
                         </StackPanel>
