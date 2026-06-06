@@ -231,6 +231,7 @@ namespace Satur8.UI
             MixPercent = preset.Parameters.Mix;
             ThresholdDb = preset.Parameters.Threshold;
             RatioValue = preset.Parameters.Ratio;
+            ClipTypeIndex = preset.Parameters.ClipType;
         }
     }
 }
