@@ -215,11 +215,13 @@ namespace Satur8.UI.VST
             for (int i = 0; i < leftIn.Length; i++)
             {
                 float ls = leftIn[i];
-                float lp = _saturator.ProcessSample(_dynamics.ProcessSample(ls));
+                //float lp = _saturator.ProcessSample(_dynamics.ProcessSample(ls));
+                float lp = _dynamics.ProcessSample(_saturator.ProcessSample(ls));
                 leftOut[i] = ls + (lp - ls) * mix;
 
                 float rs = rightIn[i];
-                float rp = _saturator.ProcessSample(_dynamics.ProcessSample(rs));
+                //float rp = _saturator.ProcessSample(_dynamics.ProcessSample(rs));
+                float rp = _dynamics.ProcessSample(_saturator.ProcessSample(rs));
                 rightOut[i] = rs + (rp - rs) * mix;
             }
         }
